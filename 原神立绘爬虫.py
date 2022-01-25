@@ -6,8 +6,10 @@
 """
 import urllib.request
 import requests
+import os
 from bs4 import BeautifulSoup
 
+mode = input('输入1下载立绘 输入0下载抽卡立绘')
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/96.0.4664.55 Safari/537.36 Edg/96.0.1054.34 '}
@@ -21,8 +23,7 @@ for tab in tabs:
 names = set(names)
 
 pre_url = 'https://wiki.biligame.com/ys/文件:'
-su_url = '立绘.png'
-# su_url = '抽卡立绘.png'
+su_url = '立绘.png' if mode else '抽卡立绘.png'
 for name in names:
     print('正在下载' + name + '立绘')
     url = pre_url + name + su_url
@@ -36,4 +37,6 @@ for name in names:
          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
          'Chrome/96.0.4664.55 Safari/537.36 Edg/96.0.1054.34 ')]
     urllib.request.install_opener(opener)
-    urllib.request.urlretrieve(image_url, name + '.png')
+    dir_name = '立绘' if mode else '抽卡立绘'
+    os.mkdir(dir_name)
+    urllib.request.urlretrieve(image_url, dir_name + '/' + name + '.png')
